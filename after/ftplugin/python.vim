@@ -38,21 +38,21 @@ function! s:RewriteLine() "{{{
     echom syn
     echo syn
     if AlreadyEnded() || !(EOL() || InComment())
-        return ""
+        return "\r"
     elseif firstWord =~ '\(try\|finally\|with\|class\|def\|for\|if\|elif\|else\|while\)\>'
         if firstWord == 'def' && line !~ '(.*)'
             echom 'add brackets' line !~ '(.*)'
-            return "():"
+            return "():\r"
         else
             echom 'no brackets' line !~ '(.*)'
-            return ":"
+            return ":\r"
         endif
     elseif line =~ 'ifmain'
         call setline('.', 'if __name__ == "__main__":')
         call cursor(0, col('$'))
-        return ""
+        return "\r"
     else
-        return ""
+        return "\r"
     endif
 endfunction " }}}
 
@@ -60,5 +60,4 @@ endfunction " }}}
 inoremap <silent> <Plug>RewriteLine  <C-R>=<SID>RewriteLine()<CR>
 imap <buffer> <CR> <Plug>RewriteLine
 " }}}
-
-echom 'python.vim loaded'
+"  vim: fdm=marker
